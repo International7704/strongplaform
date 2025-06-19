@@ -1,1 +1,349 @@
-test
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kupal Kaba??</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+        
+        body {
+            background: #111;
+            font-family: 'Bebas Neue', Impact, 'Arial Black', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            touch-action: manipulation;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255,0,0,0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255,0,0,0.1) 0%, transparent 20%);
+        }
+        
+        .main-text {
+            color: #ff0000;
+            text-align: center;
+            font-size: 15vw;
+            text-shadow: 5px 5px 0 #8B0000;
+            margin-top: 15vh;
+            transform: rotate(-5deg);
+            animation: 
+                pulse 1.5s infinite alternate,
+                shake 0.5s infinite alternate;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .footer {
+            color: #ff0000;
+            text-align: center;
+            font-size: 8vw;
+            padding: 20px;
+            text-shadow: 3px 3px 0 #8B0000;
+            margin-bottom: 10vh;
+            transform: rotate(2deg);
+            animation: colorShift 3s infinite alternate;
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* Blood drip elements */
+        .blood-drip {
+            position: absolute;
+            width: 3px;
+            background: linear-gradient(to bottom, #ff0000, transparent);
+            border-radius: 0 0 50% 50%;
+            z-index: 5;
+            animation: drip 5s linear forwards;
+        }
+        
+        /* Cracks effect */
+        .crack {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><path d="M0,0 L100,100 M30,0 L70,100 M10,40 L90,60" stroke="%23ff000020" stroke-width="2" stroke-linecap="round"/></svg>');
+            pointer-events: none;
+            animation: crackPulse 8s infinite;
+        }
+        
+        /* Emoji styles */
+        .emoji {
+            position: absolute;
+            font-size: 30px;
+            z-index: 8;
+            animation: emojiFloat 5s linear forwards, emojiRotate 3s linear infinite;
+            pointer-events: none;
+            filter: drop-shadow(0 0 5px rgba(255,0,0,0.7));
+            opacity: 0.9;
+        }
+        
+        /* Keyframe animations */
+        @keyframes pulse {
+            0% { text-shadow: 5px 5px 0 #8B0000; }
+            100% { text-shadow: 8px 8px 0 #8B0000, 0 0 15px #ff0000; }
+        }
+        
+        @keyframes shake {
+            0% { transform: rotate(-5deg) translate(0, 0); }
+            25% { transform: rotate(-6deg) translate(-1px, 1px); }
+            50% { transform: rotate(-4deg) translate(1px, -1px); }
+            75% { transform: rotate(-6deg) translate(-1px, 1px); }
+            100% { transform: rotate(-5deg) translate(0, 0); }
+        }
+        
+        @keyframes colorShift {
+            0% { color: #ff0000; }
+            50% { color: #ff6666; }
+            100% { color: #cc0000; }
+        }
+        
+        @keyframes drip {
+            0% { height: 0; top: -50px; opacity: 1; }
+            80% { opacity: 1; }
+            100% { height: 50vh; top: 100vh; opacity: 0; }
+        }
+        
+        @keyframes crackPulse {
+            0% { opacity: 0.1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 0.1; }
+        }
+        
+        @keyframes emojiFloat {
+            0% { 
+                top: -50px; 
+                opacity: 1;
+                transform: scale(0.8) rotate(0deg);
+            }
+            100% { 
+                top: 100vh; 
+                opacity: 0;
+                transform: scale(1.2) rotate(360deg);
+            }
+        }
+        
+        @keyframes emojiRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes emojiPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        @media (min-width: 768px) {
+            .main-text { font-size: 100px; }
+            .footer { font-size: 50px; }
+            .emoji { font-size: 40px; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="crack"></div>
+    
+    <div class="main-text">KUPAL KABA??</div>
+    <div class="footer">PISTING YAWA KA</div>
+
+    <script>
+        // Angry emojis pool
+        const angryEmojis = ['💢', '👊', '🤬', '😡', '💣', '💥', '🔥', '🖕', '👿', '😤', '🗯️', '⚡'];
+        
+        // Create continuous blood drips
+        function createBloodDrips() {
+            setInterval(() => {
+                const drip = document.createElement('div');
+                drip.className = 'blood-drip';
+                drip.style.left = Math.random() * 100 + 'vw';
+                drip.style.width = (1 + Math.random() * 3) + 'px';
+                drip.style.animationDuration = (3 + Math.random() * 7) + 's';
+                document.body.appendChild(drip);
+                
+                // Remove element after animation completes
+                setTimeout(() => {
+                    drip.remove();
+                }, 10000);
+            }, 300);
+        }
+        
+        // Create random angry emojis
+        function createAngryEmoji(x, y) {
+            const emoji = document.createElement('div');
+            emoji.className = 'emoji';
+            emoji.textContent = angryEmojis[Math.floor(Math.random() * angryEmojis.length)];
+            emoji.style.left = x + 'px';
+            emoji.style.top = y + 'px';
+            emoji.style.animation = `emojiFloat ${3 + Math.random() * 4}s linear forwards, emojiPulse ${0.5 + Math.random()}s infinite alternate`;
+            emoji.style.fontSize = `${20 + Math.random() * 30}px`;
+            
+            document.body.appendChild(emoji);
+            
+            setTimeout(() => {
+                emoji.remove();
+            }, 5000);
+        }
+        
+        // Create blood splatter on click/touch
+        function createSplat(x, y) {
+            // Create emoji
+            createAngryEmoji(x, y);
+            
+            // Create blood splatter
+            const splat = document.createElement('div');
+            splat.style.position = 'absolute';
+            splat.style.left = x + 'px';
+            splat.style.top = y + 'px';
+            splat.style.width = (50 + Math.random() * 100) + 'px';
+            splat.style.height = splat.style.width;
+            
+            // Create irregular shape
+            const points = [];
+            for (let i = 0; i < 10; i++) {
+                const angle = (i / 10) * Math.PI * 2;
+                const radius = 0.5 + Math.random() * 0.5;
+                points.push([
+                    Math.cos(angle) * radius * 50,
+                    Math.sin(angle) * radius * 50
+                ]);
+            }
+            
+            // Create SVG for more complex shape
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("width", "100%");
+            svg.setAttribute("height", "100%");
+            svg.setAttribute("viewBox", "-50 -50 100 100");
+            
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            let pathData = `M ${points[0][0]} ${points[0][1]}`;
+            for (let i = 1; i < points.length; i++) {
+                pathData += ` L ${points[i][0]} ${points[i][1]}`;
+            }
+            pathData += " Z";
+            path.setAttribute("d", pathData);
+            path.setAttribute("fill", `rgba(255, 0, 0, ${0.5 + Math.random() * 0.3})`);
+            path.setAttribute("stroke", "rgba(139, 0, 0, 0.3)");
+            path.setAttribute("stroke-width", "0.5");
+            
+            svg.appendChild(path);
+            splat.appendChild(svg);
+            
+            // Animation
+            splat.style.transform = `scale(${0.5 + Math.random()}) rotate(${Math.random() * 360}deg)`;
+            splat.style.transition = 'opacity 1s, transform 0.5s';
+            splat.style.pointerEvents = 'none';
+            
+            document.body.appendChild(splat);
+            
+            setTimeout(() => {
+                splat.style.opacity = '0';
+                setTimeout(() => splat.remove(), 1000);
+            }, 300);
+        }
+        
+        // Initialize effects
+        createBloodDrips();
+        
+        // Create floating emojis automatically
+        function createFloatingEmojis() {
+            setInterval(() => {
+                if (Math.random() > 0.7) { // 30% chance to spawn
+                    const emoji = document.createElement('div');
+                    emoji.className = 'emoji';
+                    emoji.textContent = angryEmojis[Math.floor(Math.random() * angryEmojis.length)];
+                    emoji.style.left = Math.random() * 100 + 'vw';
+                    emoji.style.animation = `emojiFloat ${3 + Math.random() * 7}s linear forwards, emojiPulse ${0.5 + Math.random()}s infinite alternate`;
+                    emoji.style.fontSize = `${20 + Math.random() * 30}px`;
+                    
+                    document.body.appendChild(emoji);
+                    
+                    setTimeout(() => {
+                        emoji.remove();
+                    }, 10000);
+                }
+            }, 1000);
+        }
+        
+        // Click/touch handlers
+        document.body.addEventListener('click', (e) => {
+            createSplat(e.clientX, e.clientY);
+            intensifyShake();
+        });
+        
+        document.body.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            createSplat(touch.clientX, touch.clientY);
+            intensifyShake();
+        });
+        
+        // Intensify animations temporarily
+        function intensifyShake() {
+            const mainText = document.querySelector('.main-text');
+            mainText.style.animation = 'pulse 0.5s infinite alternate, shake 0.2s infinite alternate';
+            
+            // Create multiple emojis on intense interaction
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    if (document.body) {
+                        createAngryEmoji(
+                            Math.random() * window.innerWidth,
+                            Math.random() * window.innerHeight
+                        );
+                    }
+                }, i * 200);
+            }
+            
+            setTimeout(() => {
+                mainText.style.animation = 'pulse 1.5s infinite alternate, shake 0.5s infinite alternate';
+            }, 1000);
+        }
+        
+        // Create initial effects
+        for (let i = 0; i < 10; i++) {
+            setTimeout(() => {
+                const drip = document.createElement('div');
+                drip.className = 'blood-drip';
+                drip.style.left = Math.random() * 100 + 'vw';
+                drip.style.width = (1 + Math.random() * 3) + 'px';
+                drip.style.animationDuration = (3 + Math.random() * 7) + 's';
+                document.body.appendChild(drip);
+                
+                setTimeout(() => {
+                    drip.remove();
+                }, 10000);
+            }, i * 300);
+        }
+        
+        // Start floating emojis
+        createFloatingEmojis();
+        
+        // Initial floating emojis
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                const emoji = document.createElement('div');
+                emoji.className = 'emoji';
+                emoji.textContent = angryEmojis[Math.floor(Math.random() * angryEmojis.length)];
+                emoji.style.left = Math.random() * 100 + 'vw';
+                emoji.style.animation = `emojiFloat ${3 + Math.random() * 7}s linear forwards, emojiPulse ${0.5 + Math.random()}s infinite alternate`;
+                emoji.style.fontSize = `${20 + Math.random() * 30}px`;
+                
+                document.body.appendChild(emoji);
+                
+                setTimeout(() => {
+                    emoji.remove();
+                }, 10000);
+            }, i * 500);
+        }
+    </script>
+</body>
+</html>
